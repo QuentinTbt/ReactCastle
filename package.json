@@ -3,9 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^4.3.0",
+    "cheerio": "^1.0.0-rc.2",
+    "fs": "0.0.1-security",
+    "jquery": "^3.3.1",
+    "promise": "^8.0.2",
     "react": "^16.8.1",
+    "react-bootstrap": "^1.0.0-beta.5",
     "react-dom": "^16.8.1",
-    "react-scripts": "2.1.5"
+    "react-scripts": "2.1.5",
+    "request": "^2.88.0"
   },
   "scripts": {
     "start": "react-scripts start",
