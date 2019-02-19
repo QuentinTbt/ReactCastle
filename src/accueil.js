@@ -31,9 +31,6 @@ class Accueil extends Component {
     });
   };
 
-  handleSelect = event => {
-    
-  }
 
   render() {
     return (
@@ -45,7 +42,6 @@ class Accueil extends Component {
               title="Sort By"
               id="sort-addon"
               value={this.state.sortValue}
-              onSelect={this.handleSelect}
             >
               <Dropdown.Item href="#stars">Sort by Stars</Dropdown.Item>
               <Dropdown.Item href="#prices">Sort by Hotel Price</Dropdown.Item>

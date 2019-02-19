@@ -16,17 +16,10 @@ function restaurantFromUrl(url) {
         //console.log("dans promesse");
         request(url, function (err, res, html) {
 
-            if (err) {
-                console.error(err.message);
-                return reject(err);
-            }
-
-            else if (res.statusCode !== 200) {
-                //if status code is equal to 200, the request is successfull
-                //here we can see what kind of error
-                err = new Error("status code : " + res.statusCode);
-                err.res = res;
-                console.error(err.message);
+            if (err || res.statusCode !== 200) {
+                error = new Error("status code : " + res.statusCode);
+                error.res = res;
+                console.error(err.message + "  " + res.statusCode);
                 return reject(err);
             }
 
@@ -64,7 +57,8 @@ function restaurantFromUrl(url) {
 //For each page of starred restaurants, add the url of each restaurant
 function RestaurantsPagesPromisesCreation() {
     for (var i = 0; i < 37; i++) {
-        let url = 'https://restaurant.michelin.fr/restaurants/france/restaurants-1-etoile-michelin/restaurants-2-etoiles-michelin/restaurants-3-etoiles-michelin/page-' + i.toString;
+        let url = "https://restaurant.michelin.fr/restaurants/france/restaurants-1-etoile-michelin/restaurants-2-etoiles-michelin/restaurants-3-etoiles-michelin/page-" + i.toString();
+        console.log(url)
         restaurantsPagesPromises.push(restaurantFromUrl(url));
         console.log("page " + i + " added");
     }
@@ -76,17 +70,10 @@ function RestaurantsPagesPromisesCreation() {
 function FillInRestaurant(url, i) {
     return new Promise(function (resolve, reject) {
         request(url, function (err, res, html) {
-            if (err) {
-                console.error(err.message);
-                return reject(err);
-            }
-
-            else if (res.statusCode !== 200) {
-                //if status code is equal to 200, the request is successfull
-                //here we can see what kind of error
-                err = new Error("status code : " + res.statusCode);
-                err.res = res;
-                console.error(err.message);
+            if (err || res.statusCode !== 200) {
+                error = new Error("status code : " + res.statusCode);
+                error.res = res;
+                console.error(err.message + "  " + res.statusCode);
                 return reject(err);
             }
 
@@ -197,11 +184,6 @@ Promise.all(restaurantsPagesPromises)
     .then(() => {
         console.log("restaurantsjson created");
     })
-
-
-module.exports.getJSONMichelin = function () {
-    return JSON.parse(fs.readFileSync("../json/restaurants.json"));
-}
 // Promise.all(restaurantsPagesPromises)
 // .then(RestaurantsIndivPromisesCreation)
 // .then(()=>{console.log(restaurantsInfoPromises)})

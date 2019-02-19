@@ -1,9 +1,6 @@
-const castle = require('./castle.js');
-const michelin = require('./michelin.js');
+const castles = require('../json/castles.json');
+const restaurants = require('../json/restaurants.json');
 var fs = require('fs');
-
-var castles = castle.getJSONCastle();
-var restaurants = michelin.getJSONMichelin();
 
 //console.log(castles);
 //console.log(restaurants);
@@ -42,7 +39,4 @@ function newList(restaurants,castles){
     return castleWithStarredRest;
 }
 
-
-
-module.exports.castleWithStarredRest = castleWithStarredRest;
 //console.log("test");

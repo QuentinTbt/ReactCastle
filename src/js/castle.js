@@ -17,17 +17,10 @@ function CastleFromUrl(url) {
         //console.log("dans promesse");
         request(url, function (err, res, html) {
 
-            if (err) {
-                console.error(err.message);
-                return reject(err);
-            }
-
-            else if (res.statusCode !== 200) {
-                //if status code is equal to 200, the request is successfull
-                //here we can see what kind of error
-                err = new Error("status code : " + res.statusCode);
-                err.res = res;
-                console.error(err.message);
+            if (err || res.statusCode !== 200) {
+                error = new Error("status code : " + res.statusCode);
+                error.res = res;
+                console.error(err.message + "  " + res.statusCode);
                 return reject(err);
             }
 
@@ -55,13 +48,13 @@ function CastleFromUrl(url) {
                     let url = String(data.find("a").attr("href"));
 
                     //get name of castle
-                    let hotelname = data.find("a").first().text().trim();
-                    hotelname = hotelname.replace(/\n/g, ""); //we delete \n char
+                    let nameHotel = data.find("a").first().text().trim();
+                    hotelname = nameHotel.replace(/\n/g, ""); //we delete \n char
 
                     //get  chef name
-                    let chefname = String(data.find('a:contains("Chef")').text().split(" - ")[1]).trim();
+                    let nameChef = String(data.find('a:contains("Chef")').text().split(" - ")[1]).trim();
                     //We split because in the html, chef name is preceed by "chef - " so we have took the snd argument
-                    chefname = chefname.replace(/\n/g, "");
+                    chefname = nameChef.replace(/\n/g, "");
 
                     //then we had it in our castles list
 
@@ -91,17 +84,10 @@ function CastlesPromisesCreation() {
 function FillInCastle(url, i) {
     return new Promise(function (resolve, reject) {
         request(url, function (err, res, html) {
-            if (err) {
-                console.error(err.message);
-                return reject(err);
-            }
-
-            else if (res.statusCode !== 200) {
-                //if status code is equal to 200, the request is successfull
-                //here we can see what kind of error
-                err = new Error("status code : " + res.statusCode);
-                err.res = res;
-                console.error(err.message);
+            if (err || res.statusCode !== 200) {
+                error = new Error("status code : " + res.statusCode);
+                error.res = res;
+                console.error(err.message + "  " + res.statusCode);
                 return reject(err);
             }
 
@@ -215,12 +201,7 @@ p.then(CastlesIndivPromisesCreation)
         console.log("Castlejsoncreate")
     })
 
-
-
-
-module.exports.getJSONCastle = function () {
-    return JSON.parse(fs.readFileSync("../json/castles.json"));
-}
+    
 // Promise.all(restaurantsPagesPromises)
 // .then(RestaurantsIndivPromisesCreation)
 // .then(()=>{console.log(restaurantsInfoPromises)})
